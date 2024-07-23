@@ -1,0 +1,6 @@
+[core]
+    remote = local
+['remote "data"']
+    url = s3://nd0821-udacity-c3/data/
+['remote "local"']
+    url = /data
