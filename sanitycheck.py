@@ -1,3 +1,8 @@
+"""
+Project: Deploy a ML Model to Cloud Application Platform with FastAPI
+Author: Thanh Luu
+Date: 2024-08-05
+"""
 from os import path
 
 import argparse
