@@ -1,6 +1,5 @@
 outs:
-- md5: 26a9533deec9955b2d30047d3fd2e87c.dir
-  size: 7783531
+- md5: 5eb5d1a4862601d030cce8c291532512
+  size: 3808816
   hash: md5
   path: cleaned_census.csv
-  nfiles: 5
