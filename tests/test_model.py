@@ -12,9 +12,6 @@ import sys
 
 from sklearn.model_selection import train_test_split
 
-# from module.data import process_data
-# from module.model import inference, compute_model_metrics
-
 try:
     from module.data import process_data
     from module.model import inference, compute_model_metrics
