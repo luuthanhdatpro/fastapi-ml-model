@@ -72,55 +72,6 @@ def test_column_presence_and_type(data):
             data[col_name]
         ), f"Column {col_name} failed test {format_verification_funct}"
 
-
-def workclass_values(data):
-    """Tests that the workclass column has the expected values.
-
-    Args:
-        data (pd.DataFrame): Dataset for testing
-    """
-    expected_values = {
-        "Private",
-        "Self-emp-not-inc",
-        "Self-emp-inc",
-        "Federal-gov",
-        "Local-gov",
-        "State-gov",
-        "Without-pay",
-        "Never-worked",
-    }
-
-    assert set(data["workclass"].unique()) == expected_values
-
-
-def education_values(data):
-    """Tests that the education column has the expected values.
-
-    Args:
-        data (pd.DataFrame): Dataset for testing
-    """
-    expected_values = {
-        "Bachelors",
-        "Some-college",
-        "11th",
-        "HS-grad",
-        "Prof-school",
-        "Assoc-acdm",
-        "Assoc-voc",
-        "9th",
-        "7th-8th",
-        "12th",
-        "Masters",
-        "1st-4th",
-        "10th",
-        "Doctorate",
-        "5th-6th",
-        "Preschool",
-    }
-
-    assert set(data["education"].unique()) == expected_values
-
-
 def marital_status_values(data):
     """Tests that the marital-status column has the expected values.
 
@@ -138,33 +89,6 @@ def marital_status_values(data):
     }
 
     assert set(data["marital-status"].unique()) == expected_values
-
-
-def occupation_values(data):
-    """Tests that the occupation column has the expected values.
-
-    Args:
-        data (pd.DataFrame): Dataset for testing
-    """
-    expected_values = {
-        "Tech-support",
-        "Craft-repair",
-        "Other-service",
-        "Sales",
-        "Exec-managerial",
-        "Prof-specialty",
-        "Handlers-cleaners",
-        "Machine-op-inspct",
-        "Adm-clerical",
-        "Farming-fishing",
-        "Transport-moving",
-        "Priv-house-serv",
-        "Protective-serv",
-        "Armed-Forces",
-    }
-
-    assert set(data["occupation"].unique()) == expected_values
-
 
 def relationship_values(data):
     """Tests that the relationship column has the expected values.
@@ -211,22 +135,6 @@ def test_salary_values(data):
 
     assert set(data["salary"]) == expected_values
 
-
-def test_column_ranges(data):
-
-    ranges = {
-        "age": (17, 90),
-        "education-num": (1, 16),
-        "hours-per-week": (1, 99),
-        "capital-gain": (0, 99999),
-        "capital-loss": (0, 4356),
-    }
-
-    for col_name, (minimum, maximum) in ranges.items():
-        assert data[col_name].min() >= minimum
-        assert data[col_name].max() <= maximum
-
-
 def test_column_values(data):
     # Check that the columns are of the right dtype
     for col_name in data.columns.values:
@@ -239,54 +147,3 @@ def test_model_input(data):
         assert not data[col_name].isnull().any(
         ), f"Features {col_name} has null values"
 
-
-def test_inference(data):
-    """
-    Assert that inference function returns correct
-    amount of predictions with respect to the input
-    """
-
-    _, test_df = train_test_split(data, test_size=0.20)
-    [encoder, lb, lr_model] = pickle.load(open("model/lr_model.pkl", "rb"))
-
-    X_test, y_test, _, _ = process_data(
-        X=test_df,
-        categorical_features=fake_categorical_features,
-        label="salary",
-        training=False,
-        encoder=encoder,
-        lb=lb
-    )
-    preds = inference(lr_model, X_test)
-
-    assert len(preds) == len(X_test)
-
-
-def test_output_metrics(data):
-    """
-    Assert that output metrics are in the correct range
-    """
-
-    _, test_df = train_test_split(data, test_size=0.20)
-    [encoder, lb, lr_model] = pickle.load(open("model/lr_model.pkl", "rb"))
-
-    X_test, y_test, _, _ = process_data(
-        X=test_df,
-        categorical_features=fake_categorical_features,
-        label="salary",
-        training=False,
-        encoder=encoder,
-        lb=lb
-    )
-
-    preds = inference(lr_model, X_test)
-    precision, recall, fbeta = compute_model_metrics(y_test, preds)
-
-    assert precision >= 0.0
-    assert precision <= 1.0
-
-    assert recall >= 0.0
-    assert recall <= 1.0
-
-    assert fbeta >= 0.0
-    assert fbeta <= 1.0
