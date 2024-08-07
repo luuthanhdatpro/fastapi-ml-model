@@ -9,7 +9,7 @@ logging.basicConfig(
 logger = logging.getLogger(__name__)
 
 # Request to the Render server
-url = "http://localhost:5000/infer"
+url = "https://fastapi-ml-model.onrender.com/infer"
 [encoder, lb, model] = pickle.load(open("model/lr_model.pkl", "rb"))
 cat_features = [
     "workclass",
